@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "Noto Sans JP", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", serif;
+}
+
+:root {
+  --brand-primary: #3A8F7B;
+  --brand-secondary: #D97B2A;
+  --brand-accent: #7B5EA7;
+  --bg-warm: #FDFCFB;
+  --ink: #1A1A1A;
+  --ink-muted: #666666;
+}
+
+body {
+  background-color: var(--bg-warm);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.card-shadow {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+/* iOS safe area support */
+:root {
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Prevent iOS Safari from auto-zooming on input focus (triggers when font-size < 16px) */
+@media screen and (max-width: 640px) {
+  input, textarea, select {
+    font-size: 16px;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #E5DDD5;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #D1C9C1;
+}
