@@ -1,6 +1,9 @@
 import express from "express";
-import { neon } from "@neondatabase/serverless";
+import { neon, neonConfig } from "@neondatabase/serverless";
 import { GoogleGenAI } from "@google/genai";
+
+// Use HTTP fetch-based connection (not WebSocket/Lambda TCP)
+neonConfig.fetchConnectionCache = true;
 
 const app = express();
 app.use(express.json());
