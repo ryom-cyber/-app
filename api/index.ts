@@ -1,7 +1,7 @@
 import express from "express";
 import { neon } from "@neondatabase/serverless";
 import { GoogleGenAI } from "@google/genai";
-import { getContactPrompt, getDailyPrompt, getWeeklyPrompt } from "../src/lib/prompts";
+import { getContactPrompt, getDailyPrompt, getWeeklyPrompt } from "./prompts";
 
 const app = express();
 app.use(express.json());
