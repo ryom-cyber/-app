@@ -9,11 +9,12 @@ export default function ContactScreen() {
   const [activity, setActivity] = useState("");
   const [observation, setObservation] = useState("");
   const [result, setResult] = useState("");
+  const [developmentalNotes, setDevelopmentalNotes] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleGenerate = async () => {
     if (!age || !observation) return;
-    setLoading(true); setResult("");
+    setLoading(true); setResult(""); setDevelopmentalNotes("");
     try {
       const res = await fetch("/api/generate", {
         method: "POST", headers: { "Content-Type": "application/json" },
@@ -21,6 +22,7 @@ export default function ContactScreen() {
       });
       const data = await res.json();
       setResult(data.result || data.error || "エラーが発生しました。");
+      setDevelopmentalNotes(data.developmentalNotes || "");
     } catch { setResult("通信エラーが発生しました。"); }
     setLoading(false);
   };
@@ -80,12 +82,13 @@ export default function ContactScreen() {
         )}
       </button>
 
-      <ResultBox 
-        result={result} 
-        color="#3A8F7B" 
-        type="contact" 
-        age={age} 
-        metadata={{ activity, observation }} 
+      <ResultBox
+        result={result}
+        color="#3A8F7B"
+        type="contact"
+        age={age}
+        metadata={{ activity, observation }}
+        developmentalNotes={developmentalNotes}
       />
     </div>
   );

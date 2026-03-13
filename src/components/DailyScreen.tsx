@@ -9,11 +9,12 @@ export default function DailyScreen() {
   const [activity, setActivity] = useState("");
   const [concern, setConcern] = useState("");
   const [result, setResult] = useState("");
+  const [developmentalNotes, setDevelopmentalNotes] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleGenerate = async () => {
     if (!age || !activity) return;
-    setLoading(true); setResult("");
+    setLoading(true); setResult(""); setDevelopmentalNotes("");
     try {
       const res = await fetch("/api/generate", {
         method: "POST", headers: { "Content-Type": "application/json" },
@@ -21,6 +22,7 @@ export default function DailyScreen() {
       });
       const data = await res.json();
       setResult(data.result || data.error || "エラーが発生しました。");
+      setDevelopmentalNotes(data.developmentalNotes || "");
     } catch { setResult("通信エラーが発生しました。"); }
     setLoading(false);
   };
@@ -80,12 +82,13 @@ export default function DailyScreen() {
         )}
       </button>
 
-      <ResultBox 
-        result={result} 
-        color="#D97B2A" 
-        type="daily" 
-        age={age} 
-        metadata={{ activity, concern }} 
+      <ResultBox
+        result={result}
+        color="#D97B2A"
+        type="daily"
+        age={age}
+        metadata={{ activity, concern }}
+        developmentalNotes={developmentalNotes}
       />
     </div>
   );

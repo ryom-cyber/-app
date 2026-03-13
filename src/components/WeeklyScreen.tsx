@@ -10,11 +10,12 @@ export default function WeeklyScreen() {
   const [month, setMonth] = useState("");
   const [goal, setGoal] = useState("");
   const [result, setResult] = useState("");
+  const [developmentalNotes, setDevelopmentalNotes] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleGenerate = async () => {
     if (!age || !month || !goal) return;
-    setLoading(true); setResult("");
+    setLoading(true); setResult(""); setDevelopmentalNotes("");
     try {
       const res = await fetch("/api/generate", {
         method: "POST", headers: { "Content-Type": "application/json" },
@@ -22,6 +23,7 @@ export default function WeeklyScreen() {
       });
       const data = await res.json();
       setResult(data.result || data.error || "エラーが発生しました。");
+      setDevelopmentalNotes(data.developmentalNotes || "");
     } catch { setResult("通信エラーが発生しました。"); }
     setLoading(false);
   };
@@ -92,6 +94,7 @@ export default function WeeklyScreen() {
         type="weekly"
         age={age}
         metadata={{ month, goal }}
+        developmentalNotes={developmentalNotes}
       />
     </div>
   );
