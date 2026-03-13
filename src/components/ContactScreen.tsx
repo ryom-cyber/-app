@@ -9,12 +9,11 @@ export default function ContactScreen() {
   const [activity, setActivity] = useState("");
   const [observation, setObservation] = useState("");
   const [result, setResult] = useState("");
-  const [developmentalNotes, setDevelopmentalNotes] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleGenerate = async () => {
     if (!age || !observation) return;
-    setLoading(true); setResult(""); setDevelopmentalNotes("");
+    setLoading(true); setResult("");
     try {
       const res = await fetch("/api/generate", {
         method: "POST", headers: { "Content-Type": "application/json" },
@@ -22,7 +21,6 @@ export default function ContactScreen() {
       });
       const data = await res.json();
       setResult(data.result || data.error || "エラーが発生しました。");
-      setDevelopmentalNotes(data.developmentalNotes || "");
     } catch { setResult("通信エラーが発生しました。"); }
     setLoading(false);
   };
@@ -31,7 +29,7 @@ export default function ContactScreen() {
     <div className="flex flex-col gap-3 sm:gap-8">
       <div className="p-2.5 sm:p-5 rounded-xl sm:rounded-3xl bg-[#E6F5F0] text-[#1E6B5A] text-xs sm:text-[11px] leading-relaxed font-medium border border-[#3A8F7B]/10 flex items-start gap-2">
         <span className="text-base sm:text-lg shrink-0">💡</span>
-        <span>先生が見た子どもの様子をメモで入力してください。保育所保育指針の発達の視点を踏まえ、保護者向けの連絡帳文章に仕上げます。</span>
+        <span>先生が見た子どもの様子をメモで入力してください。「この子の心が動いた瞬間」を、保護者がわくわくする文章に仕上げます。発達の分析ではなく、その子だけの今日の物語を届けます。</span>
       </div>
 
       <div className="space-y-3 sm:space-y-6">
@@ -88,7 +86,6 @@ export default function ContactScreen() {
         type="contact"
         age={age}
         metadata={{ activity, observation }}
-        developmentalNotes={developmentalNotes}
       />
     </div>
   );

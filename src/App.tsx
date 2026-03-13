@@ -4,14 +4,16 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import ContactScreen from "./components/ContactScreen";
 import DailyScreen from "./components/DailyScreen";
+import MonthlyScreen from "./components/MonthlyScreen";
 import WeeklyScreen from "./components/WeeklyScreen";
 import HistoryScreen from "./components/HistoryScreen";
 import YouRokuScreen from "./components/YouRokuScreen";
-import { History, Layout, Calendar, MessageSquare, BookOpen } from "lucide-react";
+import { History, Layout, Calendar, MessageSquare, BookOpen, FileText } from "lucide-react";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState("contact");
   const [isSharedView, setIsSharedView] = useState(false);
+  const [weeklyPreset, setWeeklyPreset] = useState({ age: "", month: "", goals: "" });
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -21,9 +23,15 @@ export default function App() {
     }
   }, []);
 
+  const handleToWeekly = (age: string, month: string, goals: string) => {
+    setWeeklyPreset({ age, month, goals });
+    setActiveTab("weekly");
+  };
+
   const tabs = [
     { id: "contact", label: "連絡帳", icon: <MessageSquare size={18} />, color: "#3A8F7B" },
     { id: "daily", label: "日案", icon: <Calendar size={18} />, color: "#D97B2A" },
+    { id: "monthly", label: "月案", icon: <FileText size={18} />, color: "#2E86C1" },
     { id: "weekly", label: "週案", icon: <Layout size={18} />, color: "#7B5EA7" },
     { id: "youroku", label: "要録", icon: <BookOpen size={18} />, color: "#C4871A" },
     { id: "history", label: "履歴", icon: <History size={18} />, color: "#1A1A1A" },
@@ -36,7 +44,7 @@ export default function App() {
         <div className="flex justify-between items-center sm:items-end">
           <div className="space-y-0.5">
             <h1 className="text-3xl sm:text-5xl font-serif italic tracking-tighter leading-none">Hoiku AI</h1>
-            <p className="text-[10px] sm:text-[11px] font-black text-[#94A3AE] uppercase tracking-[0.3em]">Professional Assistant</p>
+            <p className="text-[10px] sm:text-[11px] font-black text-[#94A3AE] tracking-[0.15em]">先生の観察眼 × 保育指針 × AI</p>
           </div>
           <div className="text-right hidden sm:block">
             <p className="text-[10px] font-bold text-[#94A3AE] uppercase tracking-widest">Version 2.0</p>
@@ -57,7 +65,8 @@ export default function App() {
           >
             {activeTab === "contact" && <ContactScreen />}
             {activeTab === "daily" && <DailyScreen />}
-            {activeTab === "weekly" && <WeeklyScreen />}
+            {activeTab === "monthly" && <MonthlyScreen onToWeekly={handleToWeekly} />}
+            {activeTab === "weekly" && <WeeklyScreen preset={weeklyPreset} />}
             {activeTab === "youroku" && <YouRokuScreen />}
             {activeTab === "history" && <HistoryScreen />}
           </motion.div>

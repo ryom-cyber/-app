@@ -1,21 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AgeSelector from "./AgeSelector";
 import ResultBox from "./ResultBox";
 import { MONTH_OPTIONS } from "@/src/lib/guidelines";
 
-export default function WeeklyScreen() {
+type Preset = {
+  age: string;
+  month: string;
+  goals: string;
+};
+
+type Props = {
+  preset?: Preset;
+};
+
+export default function WeeklyScreen({ preset }: Props) {
   const [age, setAge] = useState("");
   const [month, setMonth] = useState("");
   const [goal, setGoal] = useState("");
   const [result, setResult] = useState("");
-  const [developmentalNotes, setDevelopmentalNotes] = useState("");
   const [loading, setLoading] = useState(false);
+  const [fromMonthly, setFromMonthly] = useState(false);
+
+  useEffect(() => {
+    if (preset?.age) setAge(preset.age);
+    if (preset?.month) setMonth(preset.month);
+    if (preset?.goals) {
+      setGoal(preset.goals);
+      setFromMonthly(true);
+      setResult("");
+    }
+  }, [preset]);
 
   const handleGenerate = async () => {
     if (!age || !month || !goal) return;
-    setLoading(true); setResult(""); setDevelopmentalNotes("");
+    setLoading(true); setResult("");
     try {
       const res = await fetch("/api/generate", {
         method: "POST", headers: { "Content-Type": "application/json" },
@@ -23,7 +43,6 @@ export default function WeeklyScreen() {
       });
       const data = await res.json();
       setResult(data.result || data.error || "エラーが発生しました。");
-      setDevelopmentalNotes(data.developmentalNotes || "");
     } catch { setResult("通信エラーが発生しました。"); }
     setLoading(false);
   };
@@ -32,8 +51,18 @@ export default function WeeklyScreen() {
     <div className="flex flex-col gap-3 sm:gap-8">
       <div className="p-2.5 sm:p-5 rounded-xl sm:rounded-3xl bg-[#F3EEF8] text-[#5A3D7A] text-xs sm:text-[11px] leading-relaxed font-medium border border-[#7B5EA7]/10 flex items-start gap-2">
         <span className="text-base sm:text-lg shrink-0">💡</span>
-        <span>月案のねらいを入力すると、保育所保育指針に沿って4週間分の週案に展開します。書類間の「ダブり」を減らせます。</span>
+        <span>月案のねらいを入力して週案に展開します。月案画面から「週案に展開」ボタンで自動入力もできます。</span>
       </div>
+
+      {fromMonthly && (
+        <div
+          className="px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2"
+          style={{ background: "#EBF5FB", color: "#2E86C1", border: "1.5px solid #2E86C120" }}
+        >
+          <span>📑</span>
+          <span>月案から引き継ぎました（編集できます）</span>
+        </div>
+      )}
 
       <div className="space-y-3 sm:space-y-6">
         <section>
@@ -68,7 +97,7 @@ export default function WeeklyScreen() {
           <textarea
             placeholder={`例：友達と一緒に体を動かす遊びを楽しみ、ルールのある遊びに興味をもつ`}
             value={goal}
-            onChange={(e) => setGoal(e.target.value)}
+            onChange={(e) => { setGoal(e.target.value); setFromMonthly(false); }}
             rows={3}
             className="w-full p-3 sm:p-4 rounded-2xl border-2 border-[#F0EBE6] bg-[#FDFCFB] text-sm text-[#1A1A1A] outline-none focus:border-[#7B5EA7] transition-all placeholder:text-[#94A3AE]/50 font-medium leading-relaxed"
           />
@@ -94,7 +123,6 @@ export default function WeeklyScreen() {
         type="weekly"
         age={age}
         metadata={{ month, goal }}
-        developmentalNotes={developmentalNotes}
       />
     </div>
   );

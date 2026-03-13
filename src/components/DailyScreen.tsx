@@ -9,12 +9,11 @@ export default function DailyScreen() {
   const [activity, setActivity] = useState("");
   const [concern, setConcern] = useState("");
   const [result, setResult] = useState("");
-  const [developmentalNotes, setDevelopmentalNotes] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleGenerate = async () => {
     if (!age || !activity) return;
-    setLoading(true); setResult(""); setDevelopmentalNotes("");
+    setLoading(true); setResult("");
     try {
       const res = await fetch("/api/generate", {
         method: "POST", headers: { "Content-Type": "application/json" },
@@ -22,7 +21,6 @@ export default function DailyScreen() {
       });
       const data = await res.json();
       setResult(data.result || data.error || "エラーが発生しました。");
-      setDevelopmentalNotes(data.developmentalNotes || "");
     } catch { setResult("通信エラーが発生しました。"); }
     setLoading(false);
   };
@@ -31,7 +29,7 @@ export default function DailyScreen() {
     <div className="flex flex-col gap-3 sm:gap-8">
       <div className="p-2.5 sm:p-5 rounded-xl sm:rounded-3xl bg-[#FFF3E5] text-[#A0611A] text-xs sm:text-[11px] leading-relaxed font-medium border border-[#D97B2A]/10 flex items-start gap-2">
         <span className="text-base sm:text-lg shrink-0">💡</span>
-        <span>活動と配慮事項を入力すると、保育所保育指針の5領域に沿ったねらい・内容・環境構成・援助を提案します。</span>
+        <span>先生が考えた活動と配慮を入力してください。先生の意図を保育指針の表現に整えて、日案のフォーマットに仕上げます。</span>
       </div>
 
       <div className="space-y-3 sm:space-y-6">
@@ -47,7 +45,7 @@ export default function DailyScreen() {
             02. 予定している活動 <span className="text-[#F0A050] ml-1">*</span>
           </label>
           <textarea
-            placeholder={`例：園庭で水遊び（タライ、ジョウロ、ペットボトル等を用意）`}
+            placeholder={`例：園庭で水遊び（タライ、ジョウロ等を用意）\nこの活動で子どもにどんな姿を期待しているかも書いてもらえると、より先生の意図に沿った提案ができます`}
             value={activity}
             onChange={(e) => setActivity(e.target.value)}
             rows={2}
@@ -88,7 +86,6 @@ export default function DailyScreen() {
         type="daily"
         age={age}
         metadata={{ activity, concern }}
-        developmentalNotes={developmentalNotes}
       />
     </div>
   );

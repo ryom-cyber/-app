@@ -9,12 +9,11 @@ export default function YouRokuScreen() {
   const [growth, setGrowth] = useState("");
   const [handover, setHandover] = useState("");
   const [result, setResult] = useState("");
-  const [developmentalNotes, setDevelopmentalNotes] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleGenerate = async () => {
     if (!episode) return;
-    setLoading(true); setResult(""); setDevelopmentalNotes("");
+    setLoading(true); setResult("");
     try {
       const res = await fetch("/api/generate", {
         method: "POST", headers: { "Content-Type": "application/json" },
@@ -22,7 +21,6 @@ export default function YouRokuScreen() {
       });
       const data = await res.json();
       setResult(data.result || data.error || "エラーが発生しました。");
-      setDevelopmentalNotes(data.developmentalNotes || "");
     } catch { setResult("通信エラーが発生しました。"); }
     setLoading(false);
   };
@@ -128,7 +126,6 @@ export default function YouRokuScreen() {
         type="youroku"
         age="5歳児"
         metadata={{ childName, episode, growth, handover }}
-        developmentalNotes={developmentalNotes}
       />
     </div>
   );
