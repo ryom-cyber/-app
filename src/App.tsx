@@ -6,7 +6,8 @@ import ContactScreen from "./components/ContactScreen";
 import DailyScreen from "./components/DailyScreen";
 import WeeklyScreen from "./components/WeeklyScreen";
 import HistoryScreen from "./components/HistoryScreen";
-import { History, Layout, Calendar, MessageSquare } from "lucide-react";
+import YouRokuScreen from "./components/YouRokuScreen";
+import { History, Layout, Calendar, MessageSquare, BookOpen } from "lucide-react";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState("contact");
@@ -21,10 +22,11 @@ export default function App() {
   }, []);
 
   const tabs = [
-    { id: "contact", label: "連絡帳", icon: <MessageSquare size={20} />, color: "#3A8F7B" },
-    { id: "daily", label: "日案", icon: <Calendar size={20} />, color: "#D97B2A" },
-    { id: "weekly", label: "週案", icon: <Layout size={20} />, color: "#7B5EA7" },
-    { id: "history", label: "履歴", icon: <History size={20} />, color: "#1A1A1A" },
+    { id: "contact", label: "連絡帳", icon: <MessageSquare size={18} />, color: "#3A8F7B" },
+    { id: "daily", label: "日案", icon: <Calendar size={18} />, color: "#D97B2A" },
+    { id: "weekly", label: "週案", icon: <Layout size={18} />, color: "#7B5EA7" },
+    { id: "youroku", label: "要録", icon: <BookOpen size={18} />, color: "#C4871A" },
+    { id: "history", label: "履歴", icon: <History size={18} />, color: "#1A1A1A" },
   ];
 
   return (
@@ -56,6 +58,7 @@ export default function App() {
             {activeTab === "contact" && <ContactScreen />}
             {activeTab === "daily" && <DailyScreen />}
             {activeTab === "weekly" && <WeeklyScreen />}
+            {activeTab === "youroku" && <YouRokuScreen />}
             {activeTab === "history" && <HistoryScreen />}
           </motion.div>
         </AnimatePresence>
