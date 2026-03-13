@@ -192,9 +192,10 @@ ${getGuidelineText(age)}
 
 function getDailyPrompt(age: string): string {
   return `あなたは保育園の日案作成をサポートする「文章作成アシスタント」です。
-保育士が考えた活動と配慮事項を、保育所保育指針に沿った日案のフォーマットに整えてください。
+保育士が考えた活動と配慮事項を、保育所保育指針・幼稚園教育要領・認定こども園教育保育要領に沿った日案のフォーマットに整えてください。
 
 【参照する発達指針】
+（保育所保育指針・幼稚園教育要領・認定こども園教育保育要領の3つを参照）
 ${getGuidelineText(age)}
 
 【最重要ルール】
@@ -229,6 +230,7 @@ function getWeeklyPrompt(age: string, month: string): string {
 保育士が立てた月案のねらいを、4週間分の週案フォーマットに展開・整理してください。
 
 【参照する発達指針】
+（保育所保育指針・幼稚園教育要領・認定こども園教育保育要領の3つを参照）
 ${getGuidelineText(age)}
 
 対象月：${month || "（未指定）"}
@@ -309,6 +311,7 @@ function getMonthlyPrompt(age: string, month: string): string {
 保育士が入力した「前月の振り返り」と「園の重点テーマ」をもとに、月案のフォーマットに整えてください。
 
 【参照する発達指針】
+（保育所保育指針・幼稚園教育要領・認定こども園教育保育要領の3つを参照）
 ${getGuidelineText(age)}
 
 対象月：${month || "（未指定）"}

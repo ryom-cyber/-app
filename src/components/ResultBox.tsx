@@ -106,6 +106,9 @@ export default function ResultBox({ result, color, type, age, metadata }: Props)
               style={{ background: `${color}08`, borderLeft: `3px solid ${color}40` }}
             >
               {devMemo}
+              <p className="mt-3 pt-3 text-[10px] text-[#94A3AE] font-medium border-t border-[#F0EBE6]">
+                参照：保育所保育指針・幼稚園教育要領・認定こども園教育保育要領
+              </p>
             </div>
           )}
         </div>
